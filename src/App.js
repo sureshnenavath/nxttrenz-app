@@ -16,6 +16,18 @@ class App extends Component {
   state = {
     cartList: [],
   }
+  componentDidMount() {
+    const storedCart = localStorage.getItem('cartList')
+    if (storedCart) {
+      this.setState({cartList: JSON.parse(storedCart)})
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.cartList !== this.state.cartList) {
+      localStorage.setItem('cartList', JSON.stringify(this.state.cartList))
+    }
+  }
   incrementCartItemQuantity = id => {
     this.setState(prevState => ({
       cartList: prevState.cartList.map(eachItem =>

@@ -1,6 +1,6 @@
-// Write your code here
 import {useContext} from 'react'
 import CartContext from '../../context/CartContext'
+import './index.css'
 
 const CartSummary = () => {
   const {cartList} = useContext(CartContext)
@@ -8,12 +8,18 @@ const CartSummary = () => {
     (acc, item) => acc + item.price * item.quantity,
     0,
   )
+
   return (
-    <div>
-      <h1>Order Total: {totalPrice}</h1>
-      <p>{cartList.length} items in cart</p>
-      <button>Checkout</button>
+    <div className="cart-summary-wrapper">
+      <div className="cart-summary-container">
+        <h1 className="order-total-title">
+          Order Total: <span className="total-price">₹{totalPrice}/-</span>
+        </h1>
+        <p className="item-count">{cartList.length} items in cart</p>
+        <button className="checkout-button">Checkout</button>
+      </div>
     </div>
   )
 }
+
 export default CartSummary

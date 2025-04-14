@@ -44,7 +44,7 @@
 .product-details {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
   margin-top: 2px;
 }
 
@@ -59,13 +59,15 @@
 .rating-container {
   display: flex;
   align-items: center;
-  background-color: #3b82f6;
   border-radius: 6px;
   padding: 6px 16px;
 }
-
+.title-rating-container{
+  display: flex;
+  justify-content: space-between;
+}
 .rating {
-  color: #ffffff;
+  color: black;
   font-family: 'Roboto';
   font-size: 16px;
   font-weight: 500;
@@ -78,4 +80,15 @@
   height: 20px;
   width: 20px;
   margin-bottom: 3px;
+}
+.add-to-cart-btn{
+  margin-top: 40px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  
+  
 }
