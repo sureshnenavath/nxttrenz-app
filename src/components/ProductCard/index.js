@@ -1,11 +1,11 @@
-import React from 'react';
+import React from 'react'
 import {Link} from 'react-router-dom'
+import {FaRegStar} from 'react-icons/fa'
 import CartContext from '../../context/CartContext' // 👈 Import the context
-import { FaRegStar } from "react-icons/fa";
 
 import './index.css'
 
-const ProductCard = props => {
+function ProductCard(props) {
   const {productData} = props
   const {title, brand, imageUrl, rating, price, id} = productData
 
@@ -23,7 +23,7 @@ const ProductCard = props => {
           <li className="product-item">
             <Link to={`/products/${id}`} className="link-item">
               <img src={imageUrl} alt="product" className="thumbnail" />
-              
+
               <div className="title-rating-container">
                 <h1 className="title">{title}</h1>
                 <div className="rating-container">
@@ -33,19 +33,18 @@ const ProductCard = props => {
               </div>
               <p className="brand">by {brand}</p>
             </Link>
-              <div className="product-details">
-                <p className="price">Rs {price}/-</p>
-                <button
+            <div className="product-details">
+              <p className="price">Rs {price}/-</p>
+              <button
                 type="button"
                 className="add-to-cart-btn"
                 onClick={onClickAddToCart}
               >
                 Add to Cart
               </button>
-              </div>
-            
+            </div>
+
             {/* 👇 Add To Cart Button */}
-            
           </li>
         )
       }}

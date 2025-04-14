@@ -1,8 +1,8 @@
-import React from 'react';
+import React from 'react'
 
 import './index.css'
 
-const SimilarProductItem = props => {
+function SimilarProductItem(props) {
   const {productDetails} = props
   const {title, brand, imageUrl, rating, price} = productDetails
 

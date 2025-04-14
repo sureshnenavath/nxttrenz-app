@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 import AllProductsSection from '../AllProductsSection'
 import PrimeDealsSection from '../PrimeDealsSection'
@@ -8,15 +8,17 @@ import Header from '../Header'
 
 import './index.css'
 
-const Products = () => (
-  <>
-    <Header />
-    <div className="product-sections">
-      <PrimeDealsSection />
-      <AllProductsSection />
-    </div>
-    <Footer />
-  </>
-)
+function Products() {
+  return (
+    <>
+      <Header />
+      <div className="product-sections">
+        <PrimeDealsSection />
+        <AllProductsSection />
+      </div>
+      <Footer />
+    </>
+  )
+}
 
 export default Products

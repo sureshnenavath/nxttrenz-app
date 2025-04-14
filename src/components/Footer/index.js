@@ -11,7 +11,10 @@ function Footer() {
       <div className="footer-content">
         <div className="footer-left">
           <h2>Nenavath Suresh</h2>
-          <p>B.Tech CSE @ Siddhartha Institute of Engineering and Technology | React Dev | ML & Data Science Enthusiast</p>
+          <p>
+            B.Tech CSE @ Siddhartha Institute of Engineering and Technology |
+            React Dev | ML & Data Science Enthusiast
+          </p>
         </div>
 
         <div className="footer-right">

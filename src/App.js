@@ -1,4 +1,4 @@
-import React,{Component} from 'react'
+import React, {Component} from 'react'
 import {Route, Switch, Redirect} from 'react-router-dom'
 
 import LoginForm from './components/LoginForm'
@@ -16,6 +16,7 @@ class App extends Component {
   state = {
     cartList: [],
   }
+
   componentDidMount() {
     const storedCart = localStorage.getItem('cartList')
     if (storedCart) {
@@ -28,6 +29,7 @@ class App extends Component {
       localStorage.setItem('cartList', JSON.stringify(this.state.cartList))
     }
   }
+
   incrementCartItemQuantity = id => {
     this.setState(prevState => ({
       cartList: prevState.cartList.map(eachItem =>
@@ -75,6 +77,7 @@ class App extends Component {
       cartList: prevState.cartList.filter(item => item.id !== id),
     }))
   }
+
   removeAllCartItems = newCartList => {
     this.setState({cartList: newCartList})
   }

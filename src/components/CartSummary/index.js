@@ -2,7 +2,7 @@ import {useContext} from 'react'
 import CartContext from '../../context/CartContext'
 import './index.css'
 
-const CartSummary = () => {
+function CartSummary() {
   const {cartList} = useContext(CartContext)
   const totalPrice = cartList.reduce(
     (acc, item) => acc + item.price * item.quantity,
