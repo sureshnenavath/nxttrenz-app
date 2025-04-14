@@ -3,6 +3,7 @@ import CartListView from '../CartListView'
 import CartSummary from '../CartSummary'
 import CartContext from '../../context/CartContext'
 import EmptyCartView from '../EmptyCartView'
+import Footer from '../Footer'
 
 import './index.css'
 
@@ -22,6 +23,7 @@ const Cart = () => (
           <div className="cart-container">
             {showEmptyView ? (
               <EmptyCartView />
+              
             ) : (
               <div className="cart-content-container">
                 <div className="cart-remove">
@@ -39,6 +41,7 @@ const Cart = () => (
               </div>
             )}
           </div>
+          <Footer />
         </>
       )
     }}
