@@ -1,3 +1,4 @@
+import React from 'react';
 import {Link} from 'react-router-dom'
 import CartContext from '../../context/CartContext' // 👈 Import the context
 import { FaRegStar } from "react-icons/fa";
