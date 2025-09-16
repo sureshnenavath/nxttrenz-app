@@ -1,14 +1,19 @@
 import {Link} from 'react-router-dom'
 import {useContext} from 'react'
+import {FiSun, FiMoon} from 'react-icons/fi'
 import CartContext from '../../context/CartContext'
+import ThemeContext from '../../context/ThemeContext'
 import './index.css'
 
 function Header() {
   const {cartList} = useContext(CartContext)
+  const {theme, toggleTheme} = useContext(ThemeContext)
   const cartItemsCount = cartList.reduce(
     (total, item) => total + item.quantity,
     0,
   )
+  const themeAriaLabel =
+    theme === 'dark' ? 'Disable dark mode' : 'Enable dark mode'
 
   return (
     <nav className="nav-header">
@@ -29,6 +34,27 @@ function Header() {
                 <span className="cart-count-badge">{cartItemsCount}</span>
               )}
             </Link>
+          </li>
+          <li className="nav-menu-item">
+            <button
+              type="button"
+              className="theme-toggle-btn"
+              onClick={toggleTheme}
+              aria-pressed={theme === 'dark'}
+              aria-label={themeAriaLabel}
+            >
+              {theme === 'dark' ? (
+                <>
+                  <FiMoon className="theme-icon" />
+                  <span className="theme-label">Dark</span>
+                </>
+              ) : (
+                <>
+                  <FiSun className="theme-icon" />
+                  <span className="theme-label">Light</span>
+                </>
+              )}
+            </button>
           </li>
         </ul>
       </div>

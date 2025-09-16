@@ -15,7 +15,7 @@
 .search-input-container {
   display: flex;
   align-items: center;
-  background-color: #f1f5f9;
+  background-color: var(--nav-bg);
   border-radius: 8px;
   padding-left: 16px;
   padding-top: 8px;
@@ -24,8 +24,8 @@
 }
 
 .search-input {
-  background-color: #f1f5f9;
-  color: #0f172a;
+  background-color: transparent;
+  color: var(--text);
   font-family: 'Roboto';
   font-size: 14px;
   font-weight: 500;
@@ -35,13 +35,13 @@
 }
 
 .search-icon {
-  color: #475569;
+  color: var(--muted);
   width: 20px;
   height: 20px;
 }
 
 .category-heading {
-  color: #12022f;
+  color: var(--text);
   font-family: 'Roboto';
   font-size: 18px;
   font-weight: 700;
@@ -71,7 +71,7 @@
 }
 
 .category-name {
-  color: #64748b;
+  color: var(--muted);
   font-family: 'Roboto';
   font-size: 16px;
 }
@@ -83,11 +83,11 @@
 }
 
 .active-category-name {
-  color: #0967d2;
+  color: var(--primary);
 }
 
 .rating-heading {
-  color: #12022f;
+  color: var(--text);
   font-family: 'Roboto';
   font-size: 18px;
   font-weight: 700;
@@ -118,7 +118,7 @@
 }
 
 .and-up {
-  color: #64748b;
+  color: var(--muted);
   font-family: Roboto;
   font-size: 16px;
   margin-left: 10px;
@@ -134,17 +134,17 @@
 }
 
 .active-rating {
-  color: #0967d2;
+  color: var(--primary);
 }
 
 .clear-filters-btn {
-  background-color: #ffffff;
-  color: #0967d2;
+  background-color: transparent;
+  color: var(--primary);
   font-family: 'Roboto';
   font-size: 10px;
   font-weight: 700;
   border-radius: 4px;
-  border: 1px solid #0967d2;
+  border: 1px solid var(--primary);
   padding-top: 8px;
   padding-left: 12px;
   padding-bottom: 8px;

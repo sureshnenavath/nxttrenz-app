@@ -10,3 +10,43 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* CSS variables for theming */
+:root {
+  --bg: #ffffff;
+  --text: #0f172a;
+  --muted: #6b7280;
+  --primary: #0967d2;
+  --header-border: #f3f3f3;
+  --nav-bg: #ffffff;
+}
+
+[data-theme='dark'] {
+  --bg: #0b1220;
+  --text: #e6eef8;
+  --muted: #94a3b8;
+  --primary: #60a5fa;
+  --header-border: #111827;
+  --nav-bg: #071025;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+/* Global override for dark theme to ensure text is readable even if components use hard-coded colors */
+[data-theme='dark'] * {
+  color: var(--text) !important;
+}
+
+[data-theme='dark'] a,
+[data-theme='dark'] .nav-link,
+[data-theme='dark'] .nav-link:hover,
+[data-theme='dark'] .nav-link.active {
+  color: var(--primary) !important;
+}
+
+[data-theme='dark'] .cart-count-badge {
+  color: #fff !important;
+}

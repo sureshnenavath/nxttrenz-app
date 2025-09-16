@@ -13,7 +13,7 @@
 }
 
 .products-list-heading {
-  color: #475569;
+  color: var(--text);
   font-family: 'Roboto';
   font-size: 20px;
   font-weight: 500;
@@ -32,19 +32,19 @@
 
 .sort-by-icon {
   font-size: 24px;
-  color: #475569;
+  color: var(--muted);
   margin-right: 6px;
 }
 
 .sort-by {
-  color: #475569;
+  color: var(--muted);
   font-family: 'Roboto';
   font-size: 16px;
 }
 
 .sort-by-select {
-  color: #475569;
-  background-color: #ffffff;
+  color: var(--text);
+  background-color: var(--nav-bg);
   font-family: 'Roboto';
   font-size: 16px;
   font-weight: 500;
@@ -55,7 +55,7 @@
 }
 
 .select-option {
-  color: #7e858e;
+  color: var(--muted);
   font-family: 'Roboto';
   font-size: 14px;
 }
