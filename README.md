@@ -1,57 +1,75 @@
 # Nxt Trendz Cart Features
 
-Nxt Trendz is a modern e-commerce web application built with React, featuring a shopping cart, product listing, authentication, and more. The app demonstrates best practices in React development, including context API for state management, protected routes, and modular component architecture.
+This repository contains a React-based e-commerce demo app (Nxt Trendz) with product listings, a shopping cart, product details, authentication-protected routes, and theming (light/dark).
 
-## Features
+## Key highlights
 
-- User authentication (login/logout)
-- Product listing with filters and sorting
-- Prime deals section
-- Product details view
-- Shopping cart with add/remove/update quantity
-- Cart summary and empty cart view
-- Responsive design
-- Protected routes for secure access
+- React 18 with functional components and hooks
+- React Router v6 for routing and protected routes
+- Context API for cart and theme state
+- Responsive UI and component-based styling
+- Netlify-ready build configuration
 
-## Technologies Used
+## Prerequisites
 
-- React
-- React Router
-- Context API
-- JS Cookie
-- React Icons
-- CSS Modules
+- Node.js 18.x or newer
+- npm 9.x or newer
 
-## Getting Started
+## Quick start (development)
 
-Follow these steps to set up and run the project locally:
+1. Clone the repo
 
-### 1. Clone the repository
+   ```powershell
+   git clone https://github.com/sureshnenavath/nxttrenz-app.git
+   cd "nxttrenz-app"
+   ```
+
+2. Install dependencies
+
+   ```powershell
+   npm install
+   ```
+
+3. Start the dev server
+
+   ```powershell
+   npm start
+   ```
+
+   Open: http://localhost:3000
+
+## Build for production
 
 ```powershell
-git clone https://github.com/sureshnenavath/nxttrenz-app.git
-cd nxttrenz-app
+npm run build
 ```
 
-### 2. Install dependencies
+The optimized build will be output to the `build/` folder. The project includes `netlify.toml` so it can be deployed to Netlify (Node 18 / npm 9 specified in that file).
 
-```powershell
-npm install
-```
+## Theme (dark mode)
 
-### 3. Start the development server
+- The app includes a ThemeContext that stores the selected theme in localStorage and applies it using a data attribute on the document element (`data-theme="dark"`).
+- Toggle the theme from the header; the toggle shows a sun (light) or moon (dark) icon.
 
-```powershell
-npm start
-```
+## Files/structure (high level)
 
-The app will run at `http://localhost:3000` by default.
+- `src/` - application source
+  - `components/` - UI components (Header, Footer, Products, Cart, ProductItemDetails, etc.)
+  - `context/` - CartContext + ThemeContext
+  - `App.js` - routes and top-level providers
+
+## Notes and troubleshooting
+
+- If you hit lint or pre-commit hook failures when committing, lint-staged and Prettier/ESLint run automatically. Running `npm run format` and `npm run lint:fix` usually resolves most issues.
+- If git hooks cause trouble on your machine, you can temporarily skip them with `git commit --no-verify`, but it's better to fix the reported lint issues.
+- If the footer or specific components are not visible in the UI, ensure the routes and layout include them (the project renders `Footer` in `App.js` below `Routes`).
+
+## Contributing
+
+- Feel free to open issues or PRs. Keep changes small and run tests/build locally before pushing.
 
 ## Author
 
 Nenavath Suresh
 
-GitHub: [sureshnenavath](https://github.com/sureshnenavath/nxttrenz-app)
-
----
-Feel free to contribute or raise issues via GitHub!
+GitHub: https://github.com/sureshnenavath/nxttrenz-app
