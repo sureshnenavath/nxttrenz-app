@@ -3,7 +3,7 @@
 import {Component} from 'react'
 import {Link} from 'react-router-dom'
 import Cookies from 'js-cookie'
-import Loader from 'react-loader-spinner'
+import {ThreeDots} from 'react-loader-spinner'
 import {BsPlusSquare, BsDashSquare} from 'react-icons/bs'
 
 import CartContext from '../../context/CartContext'
@@ -52,6 +52,7 @@ class ProductItemDetails extends Component {
     this.setState({
       apiStatus: apiStatusConstants.inProgress,
     })
+
     const jwtToken = Cookies.get('jwt_token')
     const apiUrl = `https://apis.ccbp.in/products/${id}`
     const options = {
@@ -82,7 +83,7 @@ class ProductItemDetails extends Component {
 
   renderLoadingView = () => (
     <div className="products-details-loader-container" data-testid="loader">
-      <Loader type="ThreeDots" color="#0b69ff" height="50" width="50" />
+      <ThreeDots color="#0b69ff" height={50} width={50} />
     </div>
   )
 
@@ -118,7 +119,6 @@ class ProductItemDetails extends Component {
       {value => {
         const {productData, quantity, similarProductsData} = this.state
         const {
-          id,
           availability,
           brand,
           description,

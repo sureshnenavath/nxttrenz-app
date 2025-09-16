@@ -16,7 +16,9 @@ function CartSummary() {
           Order Total: <span className="total-price">₹{totalPrice}/-</span>
         </h1>
         <p className="item-count">{cartList.length} items in cart</p>
-        <button className="checkout-button">Checkout</button>
+        <button type="button" className="checkout-button">
+          Checkout
+        </button>
       </div>
     </div>
   )

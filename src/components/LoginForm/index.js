@@ -1,43 +1,31 @@
-import {Component, use} from 'react'
+import {useState} from 'react'
 import Cookies from 'js-cookie'
-import {Redirect} from 'react-router-dom'
-
+import {useNavigate, Navigate} from 'react-router-dom'
 import './index.css'
 
-class LoginForm extends Component {
-  state = {
-    username: '',
-    password: '',
-    showSubmitError: false,
-    errorMsg: '',
+function LoginForm() {
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [showSubmitError, setShowSubmitError] = useState(false)
+  const [errorMsg, setErrorMsg] = useState('')
+  const navigate = useNavigate()
+
+  const onChangeUsername = event => setUsername(event.target.value)
+  const onChangePassword = event => setPassword(event.target.value)
+
+  const onSubmitSuccess = jwtToken => {
+    Cookies.set('jwt_token', jwtToken, {expires: 30})
+    navigate('/', {replace: true})
   }
 
-  onChangeUsername = event => {
-    this.setState({username: event.target.value})
+  const onSubmitFailure = msg => {
+    setShowSubmitError(true)
+    setErrorMsg(msg)
   }
 
-  onChangePassword = event => {
-    this.setState({password: event.target.value})
-  }
-
-  onSubmitSuccess = jwtToken => {
-    const {history} = this.props
-
-    Cookies.set('jwt_token', jwtToken, {
-      expires: 30,
-    })
-    history.replace('/')
-  }
-
-  onSubmitFailure = errorMsg => {
-    this.setState({showSubmitError: true, errorMsg})
-  }
-
-  submitForm = async event => {
+  const submitForm = async event => {
     event.preventDefault()
-    const {username, password} = this.state
     let userDetails
-
     if (
       (username === 'suresh' || username === 'Suresh') &&
       (password === 'Test@123' || password === 'test@123')
@@ -46,7 +34,6 @@ class LoginForm extends Component {
     } else {
       userDetails = {username, password}
     }
-
     const url = 'https://apis.ccbp.in/login'
     const options = {
       method: 'POST',
@@ -54,89 +41,77 @@ class LoginForm extends Component {
     }
     const response = await fetch(url, options)
     const data = await response.json()
-    if (response.ok === true) {
-      this.onSubmitSuccess(data.jwt_token)
+    if (response.ok) {
+      onSubmitSuccess(data.jwt_token)
     } else {
-      this.onSubmitFailure(data.error_msg)
+      onSubmitFailure(data.error_msg)
     }
   }
 
-  renderPasswordField = () => {
-    const {password} = this.state
+  const renderPasswordField = () => (
+    <>
+      <label className="input-label" htmlFor="password">
+        PASSWORD
+      </label>
+      <input
+        type="password"
+        id="password"
+        className="password-input-field"
+        value={password}
+        onChange={onChangePassword}
+        placeholder="Test@123"
+      />
+    </>
+  )
 
-    return (
-      <>
-        <label className="input-label" htmlFor="password">
-          PASSWORD
-        </label>
-        <input
-          type="password"
-          id="password"
-          className="password-input-field"
-          value={password}
-          onChange={this.onChangePassword}
-          placeholder="Test@123"
-        />
-      </>
-    )
+  const renderUsernameField = () => (
+    <>
+      <label className="input-label" htmlFor="username">
+        USERNAME
+      </label>
+      <input
+        type="text"
+        id="username"
+        className="username-input-field"
+        value={username}
+        onChange={onChangeUsername}
+        placeholder="suresh"
+      />
+    </>
+  )
+
+  const jwtToken = Cookies.get('jwt_token')
+  if (jwtToken !== undefined) {
+    return <Navigate to="/" replace />
   }
 
-  renderUsernameField = () => {
-    const {username} = this.state
-
-    return (
-      <>
-        <label className="input-label" htmlFor="username">
-          USERNAME
-        </label>
-        <input
-          type="text"
-          id="username"
-          className="username-input-field"
-          value={username}
-          onChange={this.onChangeUsername}
-          placeholder="suresh"
-        />
-      </>
-    )
-  }
-
-  render() {
-    const {showSubmitError, errorMsg} = this.state
-    const jwtToken = Cookies.get('jwt_token')
-
-    if (jwtToken !== undefined) {
-      return <Redirect to="/" />
-    }
-
-    return (
-      <div className="login-form-container">
+  return (
+    <div className="login-form-container">
+      <img
+        src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-logo-img.png"
+        className="login-website-logo-mobile-img"
+        alt="website logo"
+      />
+      <img
+        src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-login-img.png"
+        className="login-img"
+        alt="website login"
+      />
+      <form className="form-container" onSubmit={submitForm}>
         <img
           src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-logo-img.png"
-          className="login-website-logo-mobile-img"
+          className="login-website-logo-desktop-img"
           alt="website logo"
         />
-        <img
-          src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-login-img.png"
-          className="login-img"
-          alt="website login"
-        />
-        <form className="form-container" onSubmit={this.submitForm}>
-          <img
-            src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-logo-img.png"
-            className="login-website-logo-desktop-img"
-            alt="website logo"
-          />
-          <div className="input-container">{this.renderUsernameField()}</div>
-          <div className="input-container">{this.renderPasswordField()}</div>
-          <button type="submit" className="login-button">
-            Login
-          </button>
-          {showSubmitError && <p className="error-message">*{errorMsg}</p>}
-        </form>
-      </div>
-    )
-  }
+        <div className="input-container">{renderUsernameField()}</div>
+        <div className="input-container">{renderPasswordField()}</div>
+        <button type="submit" className="login-button">
+          Login
+        </button>
+        {showSubmitError && <p className="error-message">*{errorMsg}</p>}
+      </form>
+    </div>
+  )
 }
 
 export default LoginForm

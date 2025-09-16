@@ -1,5 +1,4 @@
 // Footer.js
-import React from 'react'
 import './index.css'
 import {FaGithub, FaLinkedin, FaTwitter, FaUserCircle} from 'react-icons/fa' // Updated here
 

@@ -1,5 +1,5 @@
-import {Component} from 'react'
-import {Switch, Route, Redirect} from 'react-router-dom'
+import {useState, useCallback, useMemo} from 'react'
+import {Routes, Route, Navigate} from 'react-router-dom'
 import CartContext from './context/CartContext'
 import LoginForm from './components/LoginForm'
 import Home from './components/Home'
@@ -10,86 +10,109 @@ import ProtectedRoute from './components/ProtectedRoute'
 import NotFound from './components/NotFound'
 import './App.css'
 
-class App extends Component {
-  state = {cartList: []}
+function App() {
+  const [cartList, setCartList] = useState([])
 
-  addCartItem = product => {
-    this.setState(prevState => {
-      const existingItem = prevState.cartList.find(
-        item => item.id === product.id,
-      )
+  const addCartItem = useCallback(product => {
+    setCartList(prevCartList => {
+      const existingItem = prevCartList.find(item => item.id === product.id)
       if (existingItem) {
-        return {
-          cartList: prevState.cartList.map(item =>
-            item.id === product.id
-              ? {...item, quantity: item.quantity + product.quantity}
-              : item,
-          ),
-        }
+        return prevCartList.map(item =>
+          item.id === product.id
+            ? {...item, quantity: item.quantity + product.quantity}
+            : item,
+        )
       }
-      return {cartList: [...prevState.cartList, product]}
+      return [...prevCartList, product]
     })
-  }
+  }, [])
 
-  removeCartItem = id => {
-    this.setState(prevState => ({
-      cartList: prevState.cartList.filter(item => item.id !== id),
-    }))
-  }
+  const removeCartItem = useCallback(id => {
+    setCartList(prevCartList => prevCartList.filter(item => item.id !== id))
+  }, [])
 
-  removeAllCartItems = () => {
-    this.setState({cartList: []})
-  }
+  const removeAllCartItems = useCallback(() => {
+    setCartList([])
+  }, [])
 
-  incrementCartItemQuantity = id => {
-    this.setState(prevState => ({
-      cartList: prevState.cartList.map(item =>
+  const incrementCartItemQuantity = useCallback(id => {
+    setCartList(prevCartList =>
+      prevCartList.map(item =>
         item.id === id ? {...item, quantity: item.quantity + 1} : item,
       ),
-    }))
-  }
+    )
+  }, [])
 
-  decrementCartItemQuantity = id => {
-    this.setState(prevState => ({
-      cartList: prevState.cartList
+  const decrementCartItemQuantity = useCallback(id => {
+    setCartList(prevCartList =>
+      prevCartList
         .map(item =>
           item.id === id ? {...item, quantity: item.quantity - 1} : item,
         )
         .filter(item => item.quantity > 0),
-    }))
-  }
-
-  getContextValue = () => {
-    const {cartList} = this.state
-    return {
-      cartList,
-      addCartItem: this.addCartItem,
-      removeCartItem: this.removeCartItem,
-      removeAllCartItems: this.removeAllCartItems,
-      incrementCartItemQuantity: this.incrementCartItemQuantity,
-      decrementCartItemQuantity: this.decrementCartItemQuantity,
-    }
-  }
-
-  render() {
-    return (
-      <CartContext.Provider value={this.getContextValue()}>
-        <Switch>
-          <Route exact path="/login" component={LoginForm} />
-          <ProtectedRoute exact path="/" component={Home} />
-          <ProtectedRoute exact path="/products" component={Products} />
-          <ProtectedRoute
-            exact
-            path="/products/:id"
-            component={ProductItemDetails}
-          />
-          <ProtectedRoute exact path="/cart" component={Cart} />
-          <Route path="/not-found" component={NotFound} />
-          <Redirect to="/not-found" />
-        </Switch>
-      </CartContext.Provider>
     )
-  }
+  }, [])
+
+  const contextValue = useMemo(
+    () => ({
+      cartList,
+      addCartItem,
+      removeCartItem,
+      removeAllCartItems,
+      incrementCartItemQuantity,
+      decrementCartItemQuantity,
+    }),
+    [
+      cartList,
+      addCartItem,
+      removeCartItem,
+      removeAllCartItems,
+      incrementCartItemQuantity,
+      decrementCartItemQuantity,
+    ],
+  )
+
+  return (
+    <CartContext.Provider value={contextValue}>
+      <Routes>
+        <Route path="/login" element={<LoginForm />} />
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/products"
+          element={
+            <ProtectedRoute>
+              <Products />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/products/:id"
+          element={
+            <ProtectedRoute>
+              <ProductItemDetails />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/cart"
+          element={
+            <ProtectedRoute>
+              <Cart />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/not-found" element={<NotFound />} />
+        <Route path="*" element={<Navigate to="/not-found" replace />} />
+      </Routes>
+    </CartContext.Provider>
+  )
 }
 
 export default App

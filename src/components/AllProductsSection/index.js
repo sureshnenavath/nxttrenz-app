@@ -1,47 +1,24 @@
 /* eslint-disable class-methods-use-this */
 
-import React, {Component} from 'react'
-import Loader from 'react-loader-spinner'
+import {useState, useEffect, useCallback} from 'react'
+import {ThreeDots} from 'react-loader-spinner'
 import Cookies from 'js-cookie'
-
 import FiltersGroup from '../FiltersGroup'
 import ProductCard from '../ProductCard'
 import ProductsHeader from '../ProductsHeader'
-
 import './index.css'
 
 const categoryOptions = [
-  {
-    name: 'Clothing',
-    categoryId: '1',
-  },
-  {
-    name: 'Electronics',
-    categoryId: '2',
-  },
-  {
-    name: 'Appliances',
-    categoryId: '3',
-  },
-  {
-    name: 'Grocery',
-    categoryId: '4',
-  },
-  {
-    name: 'Toys',
-    categoryId: '5',
-  },
+  {name: 'Clothing', categoryId: '1'},
+  {name: 'Electronics', categoryId: '2'},
+  {name: 'Appliances', categoryId: '3'},
+  {name: 'Grocery', categoryId: '4'},
+  {name: 'Toys', categoryId: '5'},
 ]
 
 const sortbyOptions = [
-  {
-    optionId: 'PRICE_HIGH',
-    displayText: 'Price (High-Low)',
-  },
-  {
-    optionId: 'PRICE_LOW',
-    displayText: 'Price (Low-High)',
-  },
+  {optionId: 'PRICE_HIGH', displayText: 'Price (High-Low)'},
+  {optionId: 'PRICE_LOW', displayText: 'Price (Low-High)'},
 ]
 
 const ratingsList = [
@@ -74,32 +51,22 @@ const apiStatusConstants = {
   inProgress: 'IN_PROGRESS',
 }
 
-class AllProductsSection extends Component {
-  state = {
-    productsList: [],
-    apiStatus: apiStatusConstants.initial,
-    activeOptionId: sortbyOptions[0].optionId,
-    activeCategoryId: '',
-    searchInput: '',
-    activeRatingId: '',
-  }
+function AllProductsSection() {
+  const [productsList, setProductsList] = useState([])
+  const [apiStatus, setApiStatus] = useState(apiStatusConstants.initial)
+  const [activeOptionId, setActiveOptionId] = useState(
+    sortbyOptions[0].optionId,
+  )
+  const [activeCategoryId, setActiveCategoryId] = useState('')
+  const [searchInput, setSearchInput] = useState('')
+  const [activeRatingId, setActiveRatingId] = useState('')
 
-  componentDidMount() {
-    this.getProducts()
-  }
-
-  getProducts = async () => {
-    this.setState({
-      apiStatus: apiStatusConstants.inProgress,
-    })
+  const getProducts = useCallback(async () => {
+    setApiStatus(apiStatusConstants.inProgress)
     const jwtToken = Cookies.get('jwt_token')
-    const {activeOptionId, activeCategoryId, searchInput, activeRatingId} =
-      this.state
     const apiUrl = `https://apis.ccbp.in/products?sort_by=${activeOptionId}&category=${activeCategoryId}&title_search=${searchInput}&rating=${activeRatingId}`
     const options = {
-      headers: {
-        Authorization: `Bearer ${jwtToken}`,
-      },
+      headers: {Authorization: `Bearer ${jwtToken}`},
       method: 'GET',
     }
     const response = await fetch(apiUrl, options)
@@ -113,24 +80,24 @@ class AllProductsSection extends Component {
         imageUrl: product.image_url,
         rating: product.rating,
       }))
-      this.setState({
-        productsList: updatedData,
-        apiStatus: apiStatusConstants.success,
-      })
+      setProductsList(updatedData)
+      setApiStatus(apiStatusConstants.success)
     } else {
-      this.setState({
-        apiStatus: apiStatusConstants.failure,
-      })
+      setApiStatus(apiStatusConstants.failure)
     }
-  }
+  }, [activeOptionId, activeCategoryId, searchInput, activeRatingId])
 
-  renderLoadingView = () => (
+  useEffect(() => {
+    getProducts()
+  }, [getProducts])
+
+  const renderLoadingView = () => (
     <div className="products-loader-container">
-      <Loader type="ThreeDots" color="#0b69ff" height="50" width="50" />
+      <ThreeDots color="#0b69ff" height={50} width={50} />
     </div>
   )
 
-  renderFailureView = () => (
+  const renderFailureView = () => (
     <div className="products-error-view-container">
       <img
         src="https://assets.ccbp.in/frontend/react-js/nxt-trendz/nxt-trendz-products-error-view.png"
@@ -146,20 +113,16 @@ class AllProductsSection extends Component {
     </div>
   )
 
-  changeSortby = activeOptionId => {
-    this.setState({activeOptionId}, this.getProducts)
-  }
+  const changeSortby = optionId => setActiveOptionId(optionId)
 
-  renderProductsListView = () => {
-    const {productsList, activeOptionId} = this.state
+  const renderProductsListView = () => {
     const shouldShowProductsList = productsList.length > 0
-
     return shouldShowProductsList ? (
       <div className="all-products-container">
         <ProductsHeader
           activeOptionId={activeOptionId}
           sortbyOptions={sortbyOptions}
-          changeSortby={this.changeSortby}
+          changeSortby={changeSortby}
         />
         <ul className="products-list">
           {productsList.map(product => (
@@ -182,69 +145,46 @@ class AllProductsSection extends Component {
     )
   }
 
-  renderAllProducts = () => {
-    const {apiStatus} = this.state
-
+  const renderAllProducts = () => {
     switch (apiStatus) {
       case apiStatusConstants.success:
-        return this.renderProductsListView()
+        return renderProductsListView()
       case apiStatusConstants.failure:
-        return this.renderFailureView()
+        return renderFailureView()
       case apiStatusConstants.inProgress:
-        return this.renderLoadingView()
+        return renderLoadingView()
       default:
         return null
     }
   }
 
-  clearFilters = () => {
-    this.setState(
-      {
-        searchInput: '',
-        activeCategoryId: '',
-        activeRatingId: '',
-      },
-      this.getProducts,
-    )
+  const clearFilters = () => {
+    setSearchInput('')
+    setActiveCategoryId('')
+    setActiveRatingId('')
   }
 
-  changeRating = activeRatingId => {
-    this.setState({activeRatingId}, this.getProducts)
-  }
+  const changeRating = ratingId => setActiveRatingId(ratingId)
+  const changeCategory = categoryId => setActiveCategoryId(categoryId)
+  const enterSearchInput = () => getProducts()
+  const changeSearchInput = input => setSearchInput(input)
 
-  changeCategory = activeCategoryId => {
-    this.setState({activeCategoryId}, this.getProducts)
-  }
-
-  enterSearchInput = () => {
-    this.getProducts()
-  }
-
-  changeSearchInput = searchInput => {
-    this.setState({searchInput})
-  }
-
-  render() {
-    const {activeCategoryId, searchInput, activeRatingId} = this.state
-
-    return (
-      <div className="all-products-section">
-        <FiltersGroup
-          searchInput={searchInput}
-          categoryOptions={categoryOptions}
-          ratingsList={ratingsList}
-          changeSearchInput={this.changeSearchInput}
-          enterSearchInput={this.enterSearchInput}
-          activeCategoryId={activeCategoryId}
-          activeRatingId={activeRatingId}
-          changeCategory={this.changeCategory}
-          changeRating={this.changeRating}
-          clearFilters={this.clearFilters}
-        />
-        {this.renderAllProducts()}
-      </div>
-    )
-  }
+  return (
+    <div className="all-products-section">
+      <FiltersGroup
+        searchInput={searchInput}
+        categoryOptions={categoryOptions}
+        ratingsList={ratingsList}
+        changeSearchInput={changeSearchInput}
+        enterSearchInput={enterSearchInput}
+        activeCategoryId={activeCategoryId}
+        activeRatingId={activeRatingId}
+        changeCategory={changeCategory}
+        changeRating={changeRating}
+        clearFilters={clearFilters}
+      />
+      {renderAllProducts()}
+    </div>
+  )
 }
-
 export default AllProductsSection
