@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 
 import {Component} from 'react'
-import {Link} from 'react-router-dom'
+import {Link, useParams} from 'react-router-dom'
 import Cookies from 'js-cookie'
 import {ThreeDots} from 'react-loader-spinner'
 import {BsPlusSquare, BsDashSquare} from 'react-icons/bs'
@@ -45,9 +45,18 @@ class ProductItemDetails extends Component {
   })
 
   getProductData = async () => {
-    const {match} = this.props
-    const {params} = match
-    const {id} = params
+    const {match, params: propsParams} = this.props
+    // Support multiple sources for params for compatibility with different router versions
+    let id
+    if (match && match.params && match.params.id) {
+      id = match.params.id
+    } else if (propsParams && propsParams.id) {
+      id = propsParams.id
+    } else {
+      // Fallback: extract id from the pathname (/products/:id)
+      const pathParts = window.location.pathname.split('/')
+      id = pathParts[pathParts.length - 1]
+    }
 
     this.setState({
       apiStatus: apiStatusConstants.inProgress,
@@ -231,4 +240,11 @@ class ProductItemDetails extends Component {
   }
 }
 
-export default ProductItemDetails
+// Wrapper to provide `match` (with params) to the class component for React Router v6
+function ProductItemDetailsWithParams(props) {
+  const params = useParams()
+  const match = {params}
+  return <ProductItemDetails {...props} match={match} />
+}
+
+export default ProductItemDetailsWithParams
