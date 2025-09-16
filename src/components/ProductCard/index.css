@@ -62,7 +62,7 @@
   border-radius: 6px;
   padding: 6px 16px;
 }
-.title-rating-container{
+.title-rating-container {
   display: flex;
   justify-content: space-between;
 }
@@ -81,7 +81,7 @@
   width: 20px;
   margin-bottom: 3px;
 }
-.add-to-cart-btn{
+.add-to-cart-btn {
   margin-top: 40px;
   background-color: #3b82f6;
   color: white;
@@ -89,6 +89,4 @@
   border-radius: 5px;
   padding: 10px 20px;
   cursor: pointer;
-  
-  
 }

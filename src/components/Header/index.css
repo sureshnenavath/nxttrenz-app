@@ -1,3 +1,4 @@
+/* Header Container */
 .nav-header {
   display: flex;
   justify-content: center;
@@ -8,25 +9,27 @@
   .nav-header {
     flex-direction: column;
     align-items: center;
-    border-bottom-style: none;
+    border-bottom: none;
   }
 }
 
+/* Navigation Content */
 .nav-content {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 90%;
   max-width: 1110px;
-  padding-top: 25px;
-  padding-bottom: 25px;
+  padding: 25px 0;
 }
+
 @media screen and (max-width: 767px) {
   .nav-content {
     flex-direction: column;
   }
 }
 
+/* Mobile Logo & Nav */
 .nav-bar-mobile-logo-container {
   display: flex;
   justify-content: space-between;
@@ -39,6 +42,7 @@
   }
 }
 
+/* Large Screen Nav */
 .nav-bar-large-container {
   display: flex;
   align-items: center;
@@ -53,6 +57,7 @@
   }
 }
 
+/* Logo */
 .website-logo {
   width: 110px;
 }
@@ -63,15 +68,14 @@
   }
 }
 
+/* Navigation Menu */
 .nav-menu {
   display: flex;
+  flex: 1;
   flex-direction: row;
   justify-content: flex-end;
-  align-self: flex-end;
-  flex: 1;
-  list-style-type: none;
-  margin-top: 0px;
-  margin-bottom: 0px;
+  list-style: none;
+  margin: 0;
 }
 
 @media screen and (max-width: 767px) {
@@ -79,6 +83,8 @@
     display: none;
   }
 }
+
+/* Mobile Menu */
 .nav-menu-mobile {
   width: 100%;
 }
@@ -96,44 +102,60 @@
   align-items: center;
   height: 70px;
   background-color: #e6f6ff;
-  flex: 1;
-  list-style-type: none;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  padding: 0px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-.nav-menu-item {
+/* Menu Items */
+.nav-menu-item,
+.nav-menu-item-mobile {
   font-family: 'Roboto';
   margin: 10px;
   font-weight: 400;
   font-size: 16px;
 }
 
+.nav-menu-item-mobile {
+  margin: 0;
+  cursor: pointer;
+}
+
+/* Links */
 .nav-link {
   display: flex;
   align-items: center;
   text-decoration: none;
   color: #475569;
+  transition: color 0.3s;
 }
 
-.nav-menu-item-mobile {
-  margin: 0px;
-  cursor: pointer;
+.nav-link:hover {
+  color: #3b82f6;
 }
 
+.nav-link.active {
+  color: #3b82f6;
+  font-weight: 500;
+}
+
+.nav-link.active .cart-count-badge {
+  background-color: #bfdbfe;
+  color: #0967d2;
+}
+
+/* Logout Button */
 .logout-desktop-btn {
   font-family: 'Roboto';
   font-weight: 600;
   font-size: 10px;
   padding: 8px 16px;
-  color: #ffffff;
+  color: #fff;
   background-color: #0967d2;
   border: none;
   border-radius: 4px;
   margin-left: 14px;
   cursor: pointer;
-  outline: none;
 }
 
 @media screen and (max-width: 767px) {
@@ -142,12 +164,12 @@
   }
 }
 
+/* Mobile Nav Button */
 .nav-mobile-btn {
   border: none;
-  padding: 0px;
+  padding: 0;
   background: transparent;
   cursor: pointer;
-  outline: none;
 }
 
 @media screen and (min-width: 768px) {
@@ -156,10 +178,12 @@
   }
 }
 
+/* Nav Images */
 .nav-bar-img {
   width: 24px;
 }
 
+/* Cart Badge */
 .cart-count-badge {
   background-color: #bfdbfe;
   color: #0967d2;
@@ -167,10 +191,7 @@
   font-size: 12px;
   font-weight: 500;
   border-radius: 50%;
-  padding-left: 5px;
-  padding-top: 2px;
-  padding-right: 5px;
-  padding-bottom: 2px;
+  padding: 2px 5px;
   margin-left: 8px;
 }
 

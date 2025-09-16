@@ -1,3 +1,5 @@
+/* eslint-disable class-methods-use-this */
+
 import {Component} from 'react'
 import {Link} from 'react-router-dom'
 import Cookies from 'js-cookie'
