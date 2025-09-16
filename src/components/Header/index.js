@@ -1,5 +1,6 @@
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import {useContext} from 'react'
+import Cookies from 'js-cookie'
 import {FiSun, FiMoon} from 'react-icons/fi'
 import CartContext from '../../context/CartContext'
 import ThemeContext from '../../context/ThemeContext'
@@ -14,6 +15,12 @@ function Header() {
   )
   const themeAriaLabel =
     theme === 'dark' ? 'Disable dark mode' : 'Enable dark mode'
+  const navigate = useNavigate()
+
+  const onClickLogout = () => {
+    Cookies.remove('jwt_token')
+    navigate('/login')
+  }
 
   return (
     <nav className="nav-header">
@@ -54,6 +61,15 @@ function Header() {
                   <span className="theme-label">Light</span>
                 </>
               )}
+            </button>
+          </li>
+          <li className="nav-menu-item">
+            <button
+              type="button"
+              className="logout-desktop-btn"
+              onClick={onClickLogout}
+            >
+              Logout
             </button>
           </li>
         </ul>
