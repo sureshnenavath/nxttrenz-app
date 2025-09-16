@@ -9,7 +9,6 @@ import ProductItemDetails from './components/ProductItemDetails'
 import Cart from './components/Cart'
 import ProtectedRoute from './components/ProtectedRoute'
 import NotFound from './components/NotFound'
-import Footer from './components/Footer'
 import './App.css'
 
 function App() {
@@ -114,7 +113,6 @@ function App() {
           <Route path="/not-found" element={<NotFound />} />
           <Route path="*" element={<Navigate to="/not-found" replace />} />
         </Routes>
-        <Footer />
       </CartContext.Provider>
     </ThemeProvider>
   )

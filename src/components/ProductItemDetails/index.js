@@ -12,6 +12,7 @@ import Header from '../Header'
 import SimilarProductItem from '../SimilarProductItem'
 
 import './index.css'
+import Footer from '../Footer'
 
 const apiStatusConstants = {
   initial: 'INITIAL',
@@ -235,6 +236,7 @@ class ProductItemDetails extends Component {
         <div className="product-item-details-container">
           {this.renderProductDetails()}
         </div>
+        <Footer />
       </>
     )
   }
